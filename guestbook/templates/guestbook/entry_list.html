@@ -1,22 +1,57 @@
 {% extends 'guestbook/base.html' %}
 
-{% block title %}Главная страница{% endblock %}
+{% block title %}Гостевая книга{% endblock %}
 
 {% block content %}
-<form method="get" class="search-form">
-    <input type="text" name="q" placeholder="Поиск по имени автора" value="{{ request.GET.q|default:'' }}">
-    <button type="submit"><i class="fas fa-search"></i></button>
-</form>
+  <h1>Гостевая книга</h1>
 
-<ul class="entry-list">
-    {% for entry in entries %}
-    <li>
-        <strong>{{ entry.author_name }}</strong> ({{ entry.author_email }}) написал:
-        <p>{{ entry.text }}</p>
-        <span>Создано: {{ entry.created_at|date:"d.m.Y H:i" }}</span>
-    </li>
-    {% empty %}
-    <p>Записей не найдено.</p>
-    {% endfor %}
-</ul>
+  <div class="search-form">
+    <h2>Поиск по имени автора</h2>
+    <form method="get">
+      <div class="form-group">
+        <input
+          type="text"
+          name="q"
+          class="form-control"
+          placeholder="Введите имя автора"
+          value="{{ search_query }}">
+        <button type="submit" class="btn btn-secondary">Найти</button>
+      </div>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="add-entry-form">
+    <h2>Добавить запись</h2>
+    {% include 'guestbook/partials/_entry_form.html' %}
+  </div>
+
+  <hr>
+
+  <div class="entry-list">
+    <h2>Список записей</h2>
+    {% if entries %}
+      <ul>
+        {% for entry in entries %}
+  <li>
+    <strong>{{ entry.author_name }}</strong> ({{ entry.author_email }}): <br>
+    <em>{{ entry.text }}</em>
+    <br>
+    <small>{{ entry.created_at }}</small>
+
+    <a href="{% url 'entry_edit' entry.pk %}" class="btn btn-warning" style="margin-left:10px;">
+      <i class="fa fa-pencil"></i> Редактировать
+    </a>
+
+    <a href="{% url 'entry_delete' entry.pk %}" class="btn btn-danger" style="margin-left:10px;">
+      <i class="fa fa-trash"></i> Удалить
+    </a>
+  </li>
+{% endfor %}
+      </ul>
+    {% else %}
+      <p>В гостевой книге пока нет записей.</p>
+    {% endif %}
+  </div>
 {% endblock %}
