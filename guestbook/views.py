@@ -53,23 +53,17 @@ def entry_edit(request, pk):
     return render(request, 'guestbook/entry_form.html', {'form': form})
 
 def entry_delete(request, pk):
-    # Получаем запись по первичному ключу
     entry = get_object_or_404(GuestbookEntry, pk=pk)
 
-    # Инициализируем контекст по умолчанию
     context = {'entry': entry}
 
     if request.method == 'POST':
-        # Проверяем, была ли введена корректная почта
         entered_email = request.POST.get('email', '')
         if entered_email == entry.author_email:
-            # Удаляем запись, если почта совпадает
             entry.delete()
             return redirect('entry_list')
         else:
-            # Если ошибка, добавляем сообщение об ошибке
             context['error_message'] = 'Введена неверная почта.'
             return render(request, 'guestbook/delete_entry.html', context)
 
-    # Отображаем форму подтверждения по методу GET
     return render(request, 'guestbook/delete_entry.html', context)
