@@ -1,0 +1,26 @@
+[
+    {
+        "model": "guestbook.guestbookentry",
+        "pk": 1,
+        "fields": {
+            "author_name": "Алексей Кузьмин",
+            "author_email": "kuzmin@mail.com",
+            "text": "Привет! Это моя первая запись.",
+            "created_at": "2024-12-07T12:00:00Z",
+            "updated_at": "2024-12-07T12:00:00Z",
+            "status": "active"
+        }
+    },
+    {
+        "model": "guestbook.guestbookentry",
+        "pk": 2,
+        "fields": {
+            "author_name": "Петр Петров",
+            "author_email": "petrov@mail.com",
+            "text": "А это моя заблокировання запись.",
+            "created_at": "2024-12-07T12:30:00Z",
+            "updated_at": "2024-12-07T12:30:00Z",
+            "status": "blocked"
+        }
+    }
+]

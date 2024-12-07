@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Гостевая книга</h1>
+<a href="{% url 'entry_add' %}">Добавить запись</a>
+<ul>
+    {% for entry in entries %}
+    <li>
+        <strong>{{ entry.author_name }}</strong> ({{ entry.author_email }}) написал:
+        <p>{{ entry.text }}</p>
+        <a href="{% url 'entry_edit' entry.pk %}">Редактировать</a>
+        <a href="{% url 'entry_delete' entry.pk %}">Удалить</a>
+    </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
