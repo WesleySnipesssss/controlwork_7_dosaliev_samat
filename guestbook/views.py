@@ -1,10 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import GuestbookEntry
-from .forms import GuestbookEntryForm
+from .forms import GuestbookEntryForm, SearchForm
+
 
 def entry_list(request):
+    query = request.GET.get('q', '').strip()
     entries = GuestbookEntry.objects.filter(status='active').order_by('-created_at')
-    return render(request, 'guestbook/entry_list.html', {'entries': entries})
+    if query:
+        entries = entries.filter(author_name__icontains=query)
+
+    form = SearchForm(request.GET or None)
+    return render(request, 'guestbook/entry_list.html', {'entries': entries, 'form': form})
 
 def entry_add(request):
     if request.method == 'POST':
